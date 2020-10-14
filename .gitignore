@@ -1,0 +1,14 @@
+# package directories
+node_modules
+
+# IDE directories
+.idea
+
+# environment files
+*.env
+
+# configutation files
+*-lock.json
+
+# database storage
+data

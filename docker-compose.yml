@@ -1,0 +1,20 @@
+version: "3.6"
+services:
+  mongodb:
+    image: mongo:${MONGO_VERSION:-latest}
+    container_name: mongodb
+    hostname: mongodb
+    volumes:
+      - ./.docker/mongodb/mongod.conf:/etc/mongod.conf #allowing easy modifications to MongoDB configuration
+      - ./.docker/mongodb/initdb.d/:/docker-entrypoint-initdb.d/ #allowing easy modifications to .sh and .js container initialization files
+      - ./.docker/mongodb/data/db/:/data/db/ #storing MongoDB database files locally
+      - ./.docker/mongodb/data/log/:/var/log/mongodb/ #storing MongoDB log files locally
+    env_file:
+      - .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    ports:
+      - "27019:27017"
+    command: ["-f", "/etc/mongod.conf"] #override the default command to start the service
